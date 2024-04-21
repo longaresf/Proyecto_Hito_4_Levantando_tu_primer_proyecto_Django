@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block mi_contenedor %}
+<div class="bg-black" style="height: 200px;">
+    <h1 class="pt-4 text-white">Bienvenido Usuario {{ user.username | upper }}</h1>
+    <p class="text-light">Tenemos una lista de productos exclusivos para ti. ¿Quieres conocer más?</p>
+    <a href="{% url 'contacto' %}" class="btn btn-primary mt-3">Contáctanos</a>
+</div>
+    <div class="row row-cols-2 row-cols-md-3 g-4">
+        {% for flan in flanes_privados %}
+                <div class="col">
+                    <div class="card" >
+                        <a href="{{ flan.slug }}"><img src="{{ flan.image_url }}" class="card-img-top img-card-1" alt="{{ flan.name }}" style="height: 400px"></a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{flan.name}}</h5>
+                            <p class="card-text">{{flan.description}}</p>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    </div>
+{% endblock %}

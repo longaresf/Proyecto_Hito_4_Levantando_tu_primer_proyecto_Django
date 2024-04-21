@@ -1,0 +1,33 @@
+.text-script {
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 80px;
+    color: rgb(227, 23, 176);
+  }
+  
+.text-1 {
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(192, 214, 234);
+}
+
+.footer div {
+    background: brown;
+    height: 80px;
+    padding-top: 30px;
+}
+
+header {
+    background: blue;
+}
+
+.navbar-1 {
+    background: red;
+}
+
+.contenido {
+    background: white;
+}
+
