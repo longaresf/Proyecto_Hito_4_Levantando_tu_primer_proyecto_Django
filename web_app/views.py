@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import Template, Context, loader
-from web_app.forms import ContactoForm2, ContactFormForm, ContactFormModelForm
-from web_app.models import Flan, ContactForm, ContactFormModelForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from web_app.forms import ContactoForm, ContactFormForm, CustomUserCreationForm
+from web_app.models import Flan, ContactFormModelForm, ContactForm
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth import logout, authenticate, login
 
 # Create your views here.
 
@@ -21,17 +21,15 @@ def bienvenido(request):
     return render(request=request, template_name='welcome.html', context={'flanes_privados':flanes_privados})
 
 def base(request):
-#    return render(request=request, template_name='base.html', context={})
     return render(request=request, template_name='contenedor.html', context={})
 
 def contacto(request):
     if request.method == 'POST':
         contacto_form = ContactFormForm(request.POST)
         if contacto_form.is_valid():
-            data_contacto = contacto_form.cleaned_data
-            #Guardemos el contacto
+            contacto_form.save()
             return render(request, "custom/mensaje.html", {"mensaje":"Gracias por contactarte con OnlyFlans, te responderemos en breve"})
-    
+
     contacto_form = ContactFormForm()
     return render(request, "contacto.html", { 'form':contacto_form })
 
@@ -39,8 +37,7 @@ def contacto2(request):
     if request.method == 'POST':
         contacto_form = ContactFormModelForm(request.POST)
         if contacto_form.is_valid():
-            data_contacto = contacto_form.cleaned_data
-            #Guardemos el contacto
+            contacto_form.save()
             return render(request, "custom/mensaje.html", {"mensaje":"Gracias por contactarte con OnlyFlans, te responderemos en breve"})
     
     contacto_form = ContactFormModelForm()
@@ -54,3 +51,16 @@ def salir(request):
     logout(request)
     return redirect('/')
 
+def register(request):
+    data = {"form": CustomUserCreationForm()}
+    
+    if request.method == 'POST':
+        user_creation_form = CustomUserCreationForm(data=request.POST)
+        if user_creation_form.is_valid():
+            user_creation_form.save()
+            user = authenticate(username = user_creation_form.cleaned_data['username'], password = user_creation_form.cleaned_data['password1'])
+            login(request=user)
+            return redirect("/")
+
+    return render(request, "registration/register.html", data)
+    

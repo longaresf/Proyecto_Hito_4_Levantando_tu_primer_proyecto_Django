@@ -3,7 +3,6 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 import uuid
 
-
 # Create your models here.
 class Flan(models.Model):
     flan_uuid = models.UUIDField(primary_key=True, default=None)
